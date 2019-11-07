@@ -26,6 +26,14 @@ public class Rover {
         this.y = y;
     }
 
+    public Rover(int sizeX, int sizeY, int x, int y, Map obstacles) {
+        this.sizeX = sizeX;
+        this.sizeY = sizeY;
+        this.x = x;
+        this.y = y;
+        this.obstalces = obstacles;
+    }
+
     public void printPosition() {
         String directionName = "";
         switch (direction) {
@@ -51,37 +59,47 @@ public class Rover {
     public void move(String instructions) {
         char[] moves = instructions.toCharArray();
         for (char m: moves) {
+            int newX = this.x, newY = this.y, newDirection = this.direction;
             switch (m) {
                 case 'F':
                     if (direction == 0)
-                        y = Math.floorMod(y + 1, this.sizeY);
+                        newY = Math.floorMod(y + 1, this.sizeY);
                     if (direction == 1)
-                        x = Math.floorMod(x + 1, this.sizeX);
+                        newX = Math.floorMod(x + 1, this.sizeX);
                     if (direction == 2)
-                        y = Math.floorMod(y - 1, this.sizeY);
+                        newY = Math.floorMod(y - 1, this.sizeY);
                     if (direction == 3)
-                        x = Math.floorMod(x - 1, this.sizeX);
+                        newX = Math.floorMod(x - 1, this.sizeX);
                     break;
 
                 case 'B':
                     if (direction == 0)
-                        y = Math.floorMod(y - 1, this.sizeY);
+                        newY = Math.floorMod(y - 1, this.sizeY);
                     if (direction == 1)
-                        x = Math.floorMod(x - 1, this.sizeX);
+                        newX = Math.floorMod(x - 1, this.sizeX);
                     if (direction == 2)
-                        y = Math.floorMod(y + 1, this.sizeY);
+                        newY = Math.floorMod(y + 1, this.sizeY);
                     if (direction == 3)
-                        x = Math.floorMod(x + 1, this.sizeX);
+                        newX = Math.floorMod(x + 1, this.sizeX);
                     break;
 
                 case 'L':
-                    direction = Math.floorMod(direction - 1, 4);
+                    newDirection = Math.floorMod(direction - 1, 4);
                     break;
 
                 case 'R':
-                    direction = Math.floorMod(direction + 1, 4);
+                    newDirection = Math.floorMod(direction + 1, 4);
                     break;
             }
+            if (obstalces.containsKey(newX)) {
+                ArrayList<Integer> ys = obstalces.get(newX);
+                if (ys.contains(newY)) {
+                    return; //Stop if an obstacle is found
+                }
+            }
+            this.x = newX;
+            this.y = newY;
+            this.direction = newDirection;
         }
     }
 

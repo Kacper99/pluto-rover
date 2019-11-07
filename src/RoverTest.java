@@ -50,4 +50,61 @@ class RoverTest {
         rover.printPosition();
         assertEquals(9, rover.getX());
     }
+
+    /**
+     * Should return to the same position and direction
+     */
+    @Test
+    void circlePath() {
+        rover = new Rover(10, 10, 0, 0);
+        rover.move("FFFRFFFRFFFRFFFR");
+        assertEquals(0, rover.getX());
+        assertEquals(0, rover.getY());
+        assertEquals(0, rover.getDirection());
+    }
+
+    @Test
+    void perimeterWalk() {
+        rover = new Rover(5,5,0,0);
+        rover.move("FFFFFRFFFFFRFFFFFRFFFFFR");
+        assertEquals(0, rover.getX());
+        assertEquals(0, rover.getY());
+        assertEquals(0, rover.getDirection());
+    }
+
+    @Test
+    void testNorthernMovement() {
+        rover = new Rover(10,10,0,0);
+        rover.move("FFFFF");
+        assertEquals(0, rover.getX());
+        assertEquals(5, rover.getY());
+        assertEquals(0, rover.getDirection());
+    }
+
+    @Test
+    void testEasternMovement() {
+        rover = new Rover(10,10,0,0);
+        rover.move("RFFFFF");
+        assertEquals(5, rover.getX());
+        assertEquals(0, rover.getY());
+        assertEquals(1, rover.getDirection());
+    }
+
+    @Test
+    void testWesternMovement() {
+        rover = new Rover(10,10,0,0);
+        rover.move("LFFFFFF");
+        assertEquals(4, rover.getX());
+        assertEquals(0, rover.getY());
+        assertEquals(3, rover.getDirection());
+    }
+
+    @Test
+    void testSouthernMovement() {
+        rover = new Rover(10,10,0,0);
+        rover.move("BBBBBBB");
+        assertEquals(0, rover.getX());
+        assertEquals(3, rover.getY());
+        assertEquals(0, rover.getDirection());
+    }
 }
